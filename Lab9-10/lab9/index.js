@@ -21,7 +21,7 @@ async function BELSTUAuthorisation() {
 
       console.log("Entering password...");
     await driver.findElement(
-      By.xpath('//*[@id="username"]'))
+      By.xpath('//*[@id="password"]'))
       .sendKeys(myModule.getPassword());
 
       console.log("Authorisation...");
@@ -30,25 +30,16 @@ async function BELSTUAuthorisation() {
       .click();
 
 
-    // console.log("Enter search prompt...");
-    // await driver.findElement(
-    //   By.className('headerSearch__input'))
-    //   .sendKeys('RHCP');
+    await delay(2500);
 
-    // console.log("Searching for RHCP...");
-    // await driver.findElement(
-    //   By.className('headerSearch__submit'))
-    //   .click();
+    console.log("Checking result...");
+    let currentUrl = await driver.getCurrentUrl();
 
-    // await delay(2500);
+      if (currentUrl === 'https://dist.belstu.by/my/courses.php') 
+      {
+        TestResult = true;
+      } else TestResult = false;
 
-    // console.log("Checking search result...");
-    // let elem = await driver.findElement(By.linkText("Red Hot Chili Peppers"));
-
-    // if (elem) {
-    //   TestResult = true;
-    // }
-    TestResult = true;
   } finally {
     console.log("Closing browser...");
     await driver.quit();
@@ -60,11 +51,11 @@ async function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-describe('SoundCloud Tests', function () {
+describe('BELSTU Tests', function () {
 
   this.timeout(45000);
 
-  it('Search Successful', async () => {
+  it('Authorisation', async () => {
     let result = await BELSTUAuthorisation();
     assert.isTrue(result, 'the search result is correct');
   });
