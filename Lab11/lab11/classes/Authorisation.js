@@ -1,6 +1,5 @@
 const BasePage = require('./Basepage');
 const { By } = require('selenium-webdriver');
-const myModule = require('./mypassword');
 
 class Authorisation extends BasePage {
 
