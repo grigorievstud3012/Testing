@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "testLab9": "npx mocha ./lab9/index.js",
+    "testLab10": "npx mocha ./lab10/tests/Lab10Tests.js",
+    "test11": "npx mocha ./Lab12.js"
+  },
+  "dependencies": {
+    "chai": "^4.3.10",
+    "selenium-webdriver": "^4.20.0",
+    "mocha": "10.4.0"
+  }
+}
