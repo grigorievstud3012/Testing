@@ -1,12 +1,18 @@
 const { describe, it, after } = require('mocha');
 const Authorisation = require('../classes/Authorisation');
 const Main = require('../classes/Main');
+const Cabinet = require('../classes/Cabinet');
+const Course = require('../classes/Course');
+const Notifications = require('../classes/Notifications');
+const Logger = require('../utils/logger')
 
-const delayTime = 2000;
+const delayTime = 3000;
 
 describe('GeneralTest', function () {
 
-  this.timeout(90000); // Increase timeout if necessary
+  Logger.log('Starting tests')
+
+  this.timeout(90000); 
 
   before(async function () {
     await Authorisation.openThePage('https://dist.belstu.by/login/index.php');
@@ -14,7 +20,7 @@ describe('GeneralTest', function () {
 
 //1
   it('Authorisation', async function () {
-
+    Logger.log('Starting authorization')
     await Authorisation.inputLogin('72211009');
     await Authorisation.inputPassword();
     await Authorisation.submitAuthorisation();
@@ -22,11 +28,13 @@ describe('GeneralTest', function () {
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Autorization is incorrect')
+      Logger.log('Authorization completed')
   });
 
 //   //2
   it('Course Search', async function () {
+    Logger.log('Searching course')
     await setDelay(delayTime);
     await Main.openSearch();
     await setDelay(delayTime);
@@ -37,11 +45,12 @@ describe('GeneralTest', function () {
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 //   //3
   it('Message', async function () {
+    Logger.log('Sending message')
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
     await Main.openMessageMenu();
@@ -56,53 +65,58 @@ describe('GeneralTest', function () {
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
   
 // //4
 it('Download file', async function () {
+    Logger.log('Downloading file')
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/course/view.php?id=201');
     await setDelay(delayTime);
-    await Main.downloadFile();
+    await Course.downloadFile();
     await setDelay(delayTime);
     
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 // //5
 it('Testing in course', async function () {
+    Logger.log('Testing in course')
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/course/view.php?id=201');
     await setDelay(delayTime);
-    await Main.openTest();
+    await Course.openTest();
     await setDelay(delayTime);
-    await Main.startTest();
+    await Course.startTest();
     await setDelay(delayTime);
-    await Main.startTestSubmit();
+    await Course.startTestSubmit();
     await setDelay(delayTime);
-    await Main.endTest();
+    Logger.log('Testing started')
+    await Course.endTest();
     await setDelay(delayTime);
-    await Main.endTestSubmit();
+    await Course.endTestSubmit();
     await setDelay(delayTime);
-    await Main.endTestSubmitFinal();
+    await Course.endTestSubmitFinal();
     await setDelay(delayTime);
+    Logger.log('Testing finished')
     
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 // //6
 it('Language change', async function () {
+    Logger.log('Changing language')
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
@@ -116,51 +130,54 @@ it('Language change', async function () {
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 // //7
 it('Calendar event', async function () {
+    Logger.log('Making event')
     await setDelay(delayTime);
-    await Main.openCabinet();
+    await Cabinet.openCabinet();
     await setDelay(delayTime);
-    await Main.openDay();
+    await Cabinet.openDay();
     await setDelay(delayTime);
-    await Main.addEvent();
+    await Cabinet.addEvent();
     await setDelay(delayTime);
-    await Main.fillEvent(Date.now());
+    await Cabinet.fillEvent(Date.now());
     await setDelay(delayTime);
-    await Main.addEventSubmit();
+    await Cabinet.addEventSubmit();
     await setDelay(delayTime);
     
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 //8
 it('Block adding', async function () {
+    Logger.log('Starting to add block')
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
-    await Main.openCabinet();
+    await Cabinet.openCabinet();
     await setDelay(delayTime);
-    await Main.turnEditing();
+    await Cabinet.turnEditing();
     await setDelay(delayTime);
-    await Main.addBlock();
+    await Cabinet.addBlock();
     await setDelay(delayTime);
-    await Main.addHTML();
+    await Cabinet.addHTML();
     await setDelay(delayTime);
     
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 //9
 it('Turning off notifications', async function () {
+    Logger.log('Turning off notifications')
     await setDelay(delayTime);
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
     await setDelay(delayTime);
@@ -168,7 +185,7 @@ it('Turning off notifications', async function () {
     await setDelay(delayTime);
     await Main.notificationSettings();
     await setDelay(delayTime);
-    await Main.turnOffNotifications();
+    await Notifications.turnOffNotifications();
     await setDelay(delayTime);
     //
     await Main.openThePage('https://dist.belstu.by/my/courses.php');
@@ -177,17 +194,18 @@ it('Turning off notifications', async function () {
     await setDelay(delayTime);
     await Main.notificationSettings();
     await setDelay(delayTime);
-    await Main.turnOffNotifications();
+    await Notifications.turnOffNotifications();
     await setDelay(delayTime);
     
     let currentUrl = await Authorisation.getUrl();
 
     const TestResult = Check1(currentUrl);
-      confirmTest(TestResult, 'The search result is correct')
+      confirmTest(TestResult, 'Incorrect test')
   });
 
 //10
 it('Changing message privacy', async function () {
+  Logger.log('Changing message privacy')
   await setDelay(delayTime);
   await Main.openThePage('https://dist.belstu.by/my/courses.php');
   await setDelay(delayTime);
@@ -197,11 +215,12 @@ it('Changing message privacy', async function () {
   await setDelay(delayTime);
   await Main.restrictMessages();
   await setDelay(delayTime);
+  Logger.log('Finishing tests')
 
   let currentUrl = await Authorisation.getUrl();
 
   const TestResult = Check1(currentUrl);
-    confirmTest(TestResult, 'The search result is correct')
+    confirmTest(TestResult, 'Incorrect test')
 });
 
   after(async function () {
