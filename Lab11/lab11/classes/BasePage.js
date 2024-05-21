@@ -5,7 +5,7 @@ let options = new chrome.Options();
 options.addArguments("profile-directory=Default")
 
 const driver = new Builder()
-  .forBrowser('chrome')
+  .forBrowser('firefox')
   .setChromeOptions(options)
   .build()
 
