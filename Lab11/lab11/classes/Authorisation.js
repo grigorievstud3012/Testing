@@ -9,7 +9,7 @@ class Authorisation extends BasePage {
   }
 
   async inputPassword() {
-    return await driver.findElement(By.xpath('//*[@id="password"]')).sendKeys(myModule.getPassword());
+    return await driver.findElement(By.xpath('//*[@id="password"]')).sendKeys('belstupassword');
   }
 
   async submitAuthorisation() {
